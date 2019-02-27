@@ -1,5 +1,5 @@
 # Keep this value in sync with `WORKSPACE`
 import (builtins.fetchTarball {
-   url = "https://github.com/NixOS/nixpkgs/archive/9a787af6bc75a19ac9f02077ade58ddc248e674a.tar.gz";
-   sha256 = "17kp82r4dzcgsmjfzspkjhm8avny542lq6qcgqr9dkwbv1x1vyk0";
+   url = "https://github.com/NixOS/nixpkgs/archive/1233c8d9e9bc463899ed6a8cf0232e6bf36475ee.tar.gz";
+   sha256 = "0gs8vqw7kc2f35l8wdg7ass06s1lynf7qdx1a10lrll8vv3gl5am";
 })

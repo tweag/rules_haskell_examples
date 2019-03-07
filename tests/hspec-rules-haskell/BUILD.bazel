@@ -1,0 +1,18 @@
+load(
+    "@io_tweag_rules_haskell//haskell:haskell.bzl",
+    "haskell_library",
+)
+
+haskell_library(
+    name = "hspec-rules-haskell",
+    srcs = ["Test.Hspec.RulesHaskell.hs"],
+    compiler_flags = ["-Wall"],
+    tags = ["requires_hackage"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//tests/hackage:base",
+        "//tests/hackage:process",
+        "@hackage//:hspec",
+        "@hackage//:hspec-core",
+    ],
+)

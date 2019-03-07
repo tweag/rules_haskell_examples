@@ -377,11 +377,9 @@ rule_test(
 haskell_binary(
     name = "run-tests",
     srcs = ["RunTests.hs"],
-    tags = ["requires_hackage"],
+    compiler_flags = ["-Wall"],
     deps = [
         "//tests/hackage:base",
-        "//tests/hackage:process",
-        "@hackage//:hspec",
-        "@hackage//:hspec-core",
+        "//tests/hspec-rules-haskell",
     ],
 )

@@ -59,6 +59,21 @@ jobs:
               'bazel build --config ci //tests:run-tests'
             nix-shell --arg docTools false --pure --run \
               './bazel-ci-bin/tests/run-tests'
+      - run:
+          name: Run example tests
+          # We need to cd into the examples directory because it is a distinct workspace.
+          # There is probably a bazel flag for this, but it is near-impossible to find
+          # bazel flags you don’t know …
+          command: |
+            pushd examples/
+            nix-shell--arg docTools false --pure --run \
+              'bazel build --config ci //:run-tests' \
+              ../shell.nix
+            nix-shell --arg docTools false --pure --run \
+              './bazel-bin/run-tests' \
+              ../shell.nix
+            popd
+
 
   build-darwin:
     macos:
@@ -90,6 +105,20 @@ jobs:
             # due to a clash between binutils and clang.
             nix-shell --arg docTools false --pure --run \
               './bazel-ci-bin/tests/run-tests --skip "/startup script/"'
+      - run:
+          name: Run example tests
+          # We need to cd into the examples directory because it is a distinct workspace.
+          # There is probably a bazel flag for this, but it is near-impossible to find
+          # bazel flags you don’t know …
+          command: |
+            pushd examples/
+            nix-shell--arg docTools false --pure --run \
+              'bazel build --config ci //:run-tests' \
+              ../shell.nix
+            nix-shell --arg docTools false --pure --run \
+              './bazel-bin/run-tests' \
+              ../shell.nix
+            popd
 
 workflows:
   version: 2

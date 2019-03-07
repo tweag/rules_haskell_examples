@@ -8,7 +8,6 @@ for building Haskell code.
 * [**rts:**](./rts/) demonstrates foreign exports and shows how to
   link against GHC's RTS library, i.e. `libHSrts.so`.
 * [**tutorial:**](./tutorial/) a separate workspace for the [tutorial][tutorial].
-* [**cat_hs:**](./cat_hs/) a separate workspace for a [Hazel][hazel] example project.
 
 ## Root Workspace
 
@@ -70,10 +69,6 @@ $ bazel build @tutorial//main:demorgan
 $ bazel run @tutorial//main:demorgan
 ```
 
-## cat_hs - Hazel example
-
-Change into the `cat_hs` directory and follow the instructions given in the
-[README file](./cat_hs/README.md).
 
 [rules_haskell]: https://github.com/tweag/rules_haskell
 [tutorial]: https://rules-haskell.readthedocs.io

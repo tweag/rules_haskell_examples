@@ -4,7 +4,7 @@ Examples of using [rules_haskell][rules_haskell], the Bazel rule set
 for building Haskell code.
 
 * [**vector:**](./vector/) shows how to build the `vector` package as
-  found on Hackage, using a Nix provided compiler toolchain.
+  found on Hackage, using a [Nix](https://nixos.org/nix/) provided compiler toolchain.
 * [**rts:**](./rts/) demonstrates foreign exports and shows how to
   link against GHC's RTS library, i.e. `libHSrts.so`.
 * [**tutorial:**](./tutorial/) a separate workspace for the [tutorial][tutorial].
@@ -12,16 +12,21 @@ for building Haskell code.
 
 ## Root Workspace
 
+We use `nix-shell` from the Nix package manager to pin `bazel`,
+`rules_haskell` and `gcc` to a tested configuration. You are welcome to
+try your native versions of these tools if they happen to be compatible
+as well.
+
 Build everything in the root workspace with;
 
 ```
-$ bazel build //...
+$ nix-shell --run "bazel build //..."
 ```
 
 Show every target in this workspace;
 
 ```
-$ bazel query //...
+$ nix-shell --run "bazel query //..."
 //vector:vector
 //vector:semigroups
 //vector:primitive
@@ -39,7 +44,7 @@ $ bazel query //...
 Build the two main Haskell targets;
 
 ```
-$ bazel build //vector:vector
+$ nix-shell --run "bazel build //vector:vector"
 $ bazel build //rts:add-one-hs
 ```
 
@@ -48,13 +53,13 @@ $ bazel build //rts:add-one-hs
 Build everything in the tutorial workspace with;
 
 ```
-$ bazel build @tutorial//...
+$ nix-shell --run "bazel build @tutorial//..."
 ```
 
 Show everything in the tutorial;
 
 ```
-$ bazel query @tutorial//...
+$ nix-shell --run "bazel query @tutorial//..."
 @tutorial//main:demorgan
 @tutorial//main:base
 @tutorial//lib:booleans
@@ -65,9 +70,9 @@ $ bazel query @tutorial//...
 Build and run the tutorial example;
 
 ```
-$ bazel build @tutorial//lib:booleans
-$ bazel build @tutorial//main:demorgan
-$ bazel run @tutorial//main:demorgan
+$ nix-shell --run "bazel build @tutorial//lib:booleans"
+$ nix-shell --run "bazel build "@tutorial//main:demorgan"
+$ nix-shell --run "bazel run "@tutorial//main:demorgan"
 ```
 
 ## cat_hs - Hazel example

@@ -14,7 +14,10 @@ load(
 )
 
 [
-    haskell_import(name = name)
+    haskell_import(
+        name = name,
+        visibility = ["//visibility:public"],
+    )
     for name in [
         "array",
         "base",

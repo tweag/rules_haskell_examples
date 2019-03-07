@@ -19,7 +19,6 @@ haskell_repositories(
 load(
     "@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl",
     "nixpkgs_git_repository",
-    "nixpkgs_package",
 )
 
 nixpkgs_git_repository(
@@ -28,8 +27,15 @@ nixpkgs_git_repository(
     sha256 = "6451af4083485e13daa427f745cbf859bc23cb8b70454c017887c006a13bd65e",
 )
 
-nixpkgs_package(
+load(
+    "@io_tweag_rules_haskell//haskell:nixpkgs.bzl",
+    "haskell_nixpkgs_package",
+    "haskell_nixpkgs_packageset",
+)
+
+haskell_nixpkgs_package(
     name = "ghc",
+    attribute_path = "",
     # For rts example. Not needed if you're not using the RTS directly.
     build_file = "@io_tweag_rules_haskell//haskell:ghc.BUILD",
     # For vector example. Just use `attribute_path = haskell.compiler.ghc822`
@@ -40,7 +46,26 @@ nixpkgs_package(
     [primitive semigroupoids]
   )
   """,
-    repository = "@nixpkgs",
+    repositories = {"nixpkgs": "@nixpkgs"},
 )
 
 register_toolchains("//:ghc")
+
+# set up @hackage to run the test suite
+
+haskell_nixpkgs_packageset(
+    name = "hackage-packages",
+    base_attribute_path = "haskellPackages",
+    nix_file_content = """
+      let pkgs = import <nixpkgs> {};
+          wrapPackages = pkgs.callPackage <bazel_haskell_wrapper> {};
+      in {
+        haskellPackages = wrapPackages pkgs.haskellPackages;
+      }
+    """,
+    repositories = {"nixpkgs": "@nixpkgs"},
+)
+
+load("@hackage-packages//:packages.bzl", "import_packages")
+
+import_packages(name = "hackage")

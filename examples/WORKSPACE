@@ -12,12 +12,8 @@ local_repository(
 
 load("@io_tweag_rules_haskell//haskell:repositories.bzl", "haskell_repositories")
 
-haskell_repositories()
-
-http_archive(
-    name = "io_tweag_rules_nixpkgs",
-    strip_prefix = "rules_nixpkgs-0.2",
-    urls = ["https://github.com/tweag/rules_nixpkgs/archive/v0.2.tar.gz"],
+haskell_repositories(
+    io_tweag_rules_nixpkgs = True,
 )
 
 load(

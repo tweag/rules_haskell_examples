@@ -3,6 +3,16 @@ workspace(name = "io_tweag_rules_haskell")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@io_tweag_rules_haskell//haskell:repositories.bzl", "haskell_repositories")
 
+# this us just so that bazel doesn’t try to recurse into the workspace,
+# but stops at the workspace boundary.
+# You can’t actually `@_io_tweag_rules_haskell_examples//...`, because
+# bazel is too dumb for picking up recursively nested workspaces
+# and will choke on `examples/tutorial`.
+local_repository(
+    name = "_io_tweag_rules_haskell_examples",
+    path = "examples",
+)
+
 haskell_repositories(
     io_tweag_rules_nixpkgs = True,
 )
